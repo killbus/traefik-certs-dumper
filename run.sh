@@ -36,7 +36,7 @@ dump() {
         else
           log "Certificate or key for '${i}' differ, updating"
           local dir=${outputdir}/${i}
-          mkdir -p ${dir} && mv ${workdir}/${i}/*.pem ${dir}
+          mkdir -p ${dir} && mv ${workdir}/${i}/*.pem ${dir} && cat ${dir}/{cert.pem,key.pem} > ${dir}/${i}.pem
           change_ownership
           restart_containers
         fi
@@ -55,7 +55,7 @@ dump() {
         log "Certificate and key for '${DOMAINS[0]}' still up to date, doing nothing"
       else
         log "Certificate or key for '${DOMAINS[0]}' differ, updating"
-        mv ${workdir}/${DOMAINS[0]}/*.pem ${outputdir}/
+        mv ${workdir}/${DOMAINS[0]}/*.pem ${outputdir}/ && cat ${outputdir}/{cert.pem,key.pem} > ${outputdir}/${DOMAINS[0]}.pem
         change_ownership
         restart_containers
       fi
